@@ -1,18 +1,21 @@
 
 import express from 'express';
 import dotenv from 'dotenv';
+import managerRoute from './routes/manager';
 
 dotenv.config();
 const bodyParser = require('body-parser')
 const app = express();
+const port = process.env.PORT || 3000;
 
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
+app.use('/api/manager', managerRoute );
 
 
-app.get('/', (req, req) => res.send('Server is On'));
+app.get('/', (req, res) => res.send('Server is On'));
 app.use((req, res) => {
     res.status(400).send({
         status: 400,
@@ -21,7 +24,7 @@ app.use((req, res) => {
 });
 
 if(!module.parent) {
-    app.listen(process.env.PORT || 3000)
+    app.listen(port, () => console.log(`listening to port ${port}`));
 }
 
-export default app
+export default app;
